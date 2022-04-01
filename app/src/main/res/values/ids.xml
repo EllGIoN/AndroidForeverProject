@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="listViewInMainActivity" type="id" />
+    <item name="textView1" type="id" />
+    <item name="textView2" type="id" />
+    <item name="textView3" type="id" />
+</resources>
