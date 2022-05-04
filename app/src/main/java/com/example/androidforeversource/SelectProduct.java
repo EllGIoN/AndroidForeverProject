@@ -39,6 +39,7 @@ public class SelectProduct extends AppCompatActivity {
             productString.append(product.oldPrice);
             productString.append("\n\tŹródło:");
             productString.append(product.url);
+            productsStrings.add(productString.toString());
         };
         ListView productsView = findViewById(R.id.ProductsList);
 
