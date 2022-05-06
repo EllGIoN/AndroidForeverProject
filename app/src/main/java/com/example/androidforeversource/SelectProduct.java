@@ -47,5 +47,6 @@ public class SelectProduct extends AppCompatActivity {
                 (this, android.R.layout.simple_list_item_1, productsStrings);
 
         productsView.setAdapter(arrayAdapter);
+        arrayAdapter.notifyDataSetChanged();
     }
 }

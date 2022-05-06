@@ -3,6 +3,7 @@ package com.example.androidforeversource;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
@@ -56,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
 
 
-    private static final int PERMISSION_REQUEST_CODE =  200;
+    private static final int PERMISSION_REQUEST_CODE = 200;
     private ArrayList<structEstimateInfo> infoList = new ArrayList<>();
     private structEstimateInfoAdapter adapter;
     private static final int DISCOVER_DURATION = 300;
@@ -70,14 +71,14 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate: Started.");
         ListView mListView = (ListView) findViewById(R.id.listViewInMainActivity); // take from it
 
-        structEstimateInfo firstExample = new structEstimateInfo("Mr. Krab","4000","25-11-1989");
-        structEstimateInfo SecondExample = new structEstimateInfo("Riot hospicium","12000","13-10-2010");
+        structEstimateInfo firstExample = new structEstimateInfo("Mr. Krab", "4000", "25-11-1989");
+        structEstimateInfo SecondExample = new structEstimateInfo("Riot hospicium", "12000", "13-10-2010");
 
 
         infoList.add(firstExample);
         infoList.add(SecondExample);
 
-         adapter = new structEstimateInfoAdapter(this, R.layout.adapter_view_layout, infoList);
+        adapter = new structEstimateInfoAdapter(this, R.layout.adapter_view_layout, infoList);
         mListView.setAdapter(adapter);
 
         registerForContextMenu(mListView);
@@ -88,46 +89,47 @@ public class MainActivity extends AppCompatActivity {
             requestPermission();
         }
     }
+
     @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo){
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
 
         menu.setHeaderTitle("Choose"); // title of context menu
 
         // context menu choices
-        menu.add(0,v.getId(),0,"Share");
-        menu.add(0,v.getId(),0,"Create PDF");
-        menu.add(0,v.getId(),0,"Edit");
-        menu.add(0,v.getId(),0,"Delete");
+        menu.add(0, v.getId(), 0, "Share");
+        menu.add(0, v.getId(), 0, "Create PDF");
+        menu.add(0, v.getId(), 0, "Edit");
+        menu.add(0, v.getId(), 0, "Delete");
     }
+
     @Override
-    public boolean onContextItemSelected(MenuItem item){
-        if(item.getTitle() == "Share"){
+    public boolean onContextItemSelected(MenuItem item) {
+        if (item.getTitle() == "Share") {
             ShareMethod(item);
-        }
-        else if(item.getTitle() =="Edit"){
+        } else if (item.getTitle() == "Edit") {
 
         }
-        if(item.getTitle() == "Delete"){
+        if (item.getTitle() == "Delete") {
             _deleteRecordContextBtn(item);
 
         }
-        if(item.getTitle() == "Create PDF"){
+        if (item.getTitle() == "Create PDF") {
             _createPDFileContextBtn(item);
         }
 
-        return  true;
+        return true;
     }
-    private void ShareMethod(MenuItem item){
+
+    private void ShareMethod(MenuItem item) {
 
         AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         structEstimateInfo sei = infoList.get(menuInfo.position);
         BluetoothAdapter btAdapter = BluetoothAdapter.getDefaultAdapter();
 
-        if(btAdapter == null){
+        if (btAdapter == null) {
             Toast.makeText(MainActivity.this, "Bluetooth does not support this device", Toast.LENGTH_LONG).show();
-        }
-        else {
+        } else {
             File file = new File(Environment.getExternalStorageDirectory(), sei.getName() + sei.getDateOfCreation() + ".pdf");
             if (file.exists()) {
 
@@ -138,10 +140,20 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void SendFile(){
+    private void SendFile() {
         Intent discoveryIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
-        discoveryIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION,DISCOVER_DURATION);
-        startActivityForResult(discoveryIntent,REQUEST_BLU);
+        discoveryIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, DISCOVER_DURATION);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_ADVERTISE) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        startActivityForResult(discoveryIntent, REQUEST_BLU);
 
     }
 
