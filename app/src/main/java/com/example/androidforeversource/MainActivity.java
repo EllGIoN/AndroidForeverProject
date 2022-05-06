@@ -1,10 +1,14 @@
 package com.example.androidforeversource;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
+import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.nfc.Tag;
 import android.os.Bundle;
 import android.util.Log;
@@ -38,11 +42,14 @@ import androidx.core.content.ContextCompat;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -50,7 +57,11 @@ public class MainActivity extends AppCompatActivity {
 
 
     private static final int PERMISSION_REQUEST_CODE =  200;
-    ArrayList<structEstimateInfo> infoList = new ArrayList<>();
+    private ArrayList<structEstimateInfo> infoList = new ArrayList<>();
+    private structEstimateInfoAdapter adapter;
+    private static final int DISCOVER_DURATION = 300;
+    private static final int REQUEST_BLU = 1;
+    private structEstimateInfo sei;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
         infoList.add(firstExample);
         infoList.add(SecondExample);
 
-        structEstimateInfoAdapter adapter = new structEstimateInfoAdapter(this, R.layout.adapter_view_layout, infoList);
+         adapter = new structEstimateInfoAdapter(this, R.layout.adapter_view_layout, infoList);
         mListView.setAdapter(adapter);
 
         registerForContextMenu(mListView);
@@ -92,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onContextItemSelected(MenuItem item){
         if(item.getTitle() == "Share"){
-
+            ShareMethod(item);
         }
         else if(item.getTitle() =="Edit"){
 
@@ -104,10 +115,77 @@ public class MainActivity extends AppCompatActivity {
         if(item.getTitle() == "Create PDF"){
             _createPDFileContextBtn(item);
         }
-        //adapter.notifyDataSetChanged();
+
         return  true;
     }
+    private void ShareMethod(MenuItem item){
 
+        AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        structEstimateInfo sei = infoList.get(menuInfo.position);
+        BluetoothAdapter btAdapter = BluetoothAdapter.getDefaultAdapter();
+
+        if(btAdapter == null){
+            Toast.makeText(MainActivity.this, "Bluetooth does not support this device", Toast.LENGTH_LONG).show();
+        }
+        else {
+            File file = new File(Environment.getExternalStorageDirectory(), sei.getName() + sei.getDateOfCreation() + ".pdf");
+            if (file.exists()) {
+
+            } else {
+                _createPDFile();
+            }
+            SendFile();
+        }
+    }
+
+    private void SendFile(){
+        Intent discoveryIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
+        discoveryIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION,DISCOVER_DURATION);
+        startActivityForResult(discoveryIntent,REQUEST_BLU);
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == DISCOVER_DURATION && requestCode == REQUEST_BLU){
+
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_SEND);
+            intent.setType("application/pdf");
+            File file = new File(Environment.getExternalStorageDirectory(),sei.getName()+sei.getDateOfCreation()+".pdf");
+            intent.putExtra(Intent.EXTRA_STREAM,Uri.fromFile(file));
+            PackageManager pm = getPackageManager();
+            List<ResolveInfo> appsList = pm.queryIntentActivities(intent,0);
+
+            if(appsList.size() > 0){
+                String packageName = null;
+                String className = null;
+                boolean found = false;
+
+                for(ResolveInfo info : appsList){
+                    packageName = info.activityInfo.packageName;
+                    if(packageName.equals("com.android.bluetooth")){
+                        className = info.activityInfo.name;
+                        found = true;
+                        break;
+                    }
+                }
+                if(!found){
+                    Toast.makeText(MainActivity.this, "Bluetooth haven't been found", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    intent.setClassName(packageName,className);
+                    Toast.makeText(MainActivity.this, "File was send", Toast.LENGTH_SHORT).show();
+                    startActivity(intent);
+                }
+            }
+            else{
+                Toast.makeText(MainActivity.this, "Bluetooth is cancelled", Toast.LENGTH_SHORT).show();
+            }
+
+        }
+    }
 
     public void goToAddNewEstimate(View view){
         Intent intent = new Intent(this,addNewEstimate.class);
@@ -116,22 +194,23 @@ public class MainActivity extends AppCompatActivity {
     private void _deleteRecordContextBtn(MenuItem item){
         AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         infoList.remove(menuInfo.position);
+        adapter.notifyDataSetChanged();
 
     }
     private void _createPDFileContextBtn(MenuItem item){
         AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        structEstimateInfo sei = infoList.get(menuInfo.position);
+         sei = infoList.get(menuInfo.position);
 
         File file = new File(Environment.getExternalStorageDirectory(),sei.getName()+sei.getDateOfCreation()+".pdf");
         if(file.exists()){
             Toast.makeText(MainActivity.this,"File Already Exist",Toast.LENGTH_SHORT).show();
         }
         else {
-            _createPDFile(sei);
+            _createPDFile();
         }
     }
 
-    private void _createPDFile(structEstimateInfo sei){
+    private void _createPDFile(){
         int heightPage = 1120;
         int widthPage = 792;
 
