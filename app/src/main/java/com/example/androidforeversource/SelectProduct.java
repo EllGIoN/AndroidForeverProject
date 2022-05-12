@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SelectProduct extends AppCompatActivity {
-    DataAccess db = new DataAccess(SelectProduct.this);
+    //DataAccess db = new DataAccess(SelectProduct.this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,12 +22,12 @@ public class SelectProduct extends AppCompatActivity {
     }
 
     public void updateProductData(View view){
-        db.saveOrUpdateData();
+        new DataAccess(SelectProduct.this).saveOrUpdateData();
         addPositionsToView();
     }
 
     private void addPositionsToView(){
-        List<Product> products = db.getProducts();
+        List<Product> products = new DataAccess(SelectProduct.this).getProducts();
         List<String> productsStrings = new ArrayList<>();
 
         for (Product product : products) {
