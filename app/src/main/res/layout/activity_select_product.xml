@@ -7,20 +7,54 @@
 
     <Button
         android:id="@+id/UpdateButton"
-        android:layout_width="302dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="52dp"
-        android:onClick="updateProductData"
-        android:text="UPDATE DATA"
+        android:layout_width="60dp"
+        android:layout_height="64dp"
+        android:onClick="updateProductList"
+        android:text="u"
+        app:icon="@android:drawable/ic_menu_rotate"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintHorizontal_bias="0.772"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.017" />
 
     <ListView
         android:id="@+id/ProductsList"
-        android:layout_width="409dp"
-        android:layout_height="653dp"
+        android:layout_width="421dp"
+        android:layout_height="607dp"
+        android:layout_marginTop="8dp"
+        android:choiceMode="singleChoice"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/filterTextLabel" />
+
+    <EditText
+        android:id="@+id/filterTextLabel"
+        android:layout_width="244dp"
+        android:layout_height="66dp"
+        android:backgroundTint="@color/purple_500"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Filter"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/UpdateButton"
+        app:layout_constraintHorizontal_bias="0.444"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.015" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="60dp"
+        android:layout_height="64dp"
+        android:onClick="updateProductData"
+        android:text="Button"
+        app:icon="@android:drawable/stat_notify_sync"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.736"
+        app:layout_constraintStart_toEndOf="@+id/UpdateButton"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.017" />
 </androidx.constraintlayout.widget.ConstraintLayout>
