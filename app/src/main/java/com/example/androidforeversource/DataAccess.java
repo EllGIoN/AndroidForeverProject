@@ -91,6 +91,27 @@ public class DataAccess extends SQLiteOpenHelper {
         }
     }
 
+    public Product getProduct(String sku){
+        SQLiteDatabase sqldb = this.getReadableDatabase();
+
+        Cursor cursor = sqldb.rawQuery("SELECT * FROM " + TABLE_PRODUCTS + " WHERE sku LIKE '" + sku + "';", new String[]{});
+        if(cursor != null){
+            if(cursor.moveToFirst()) {
+                Product product = new Product();
+                product.sku = cursor.getString(1);
+                product.name = cursor.getString(2);
+                product.url = cursor.getString(3);
+                product.imageUrl = cursor.getString(4);
+                product.currentPrice = Double.parseDouble(cursor.getString(5));
+                product.oldPrice = Double.parseDouble(cursor.getString(6));
+                product.category = cursor.getString(7);
+                return product;
+            }
+            cursor.close();
+        }
+        return null;
+    }
+
     public ArrayList<Product> getProducts(){
         ArrayList<Product> products = new ArrayList<>();
         SQLiteDatabase sqldb = this.getReadableDatabase();

@@ -17,4 +17,10 @@ public class addNewEstimate extends AppCompatActivity {
         Intent intent = new Intent(this,SelectProduct.class);
         startActivity(intent);
     }
+
+    public static void addProduct(Product product){
+        if(product != null){
+
+        }
+    }
 }
