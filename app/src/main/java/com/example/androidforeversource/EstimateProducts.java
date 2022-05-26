@@ -81,8 +81,6 @@ public class EstimateProducts extends AppCompatActivity {
                     product.currentPrice +
                     "\n\tPoprzednia cena:" +
                     product.oldPrice +
-                    "\n\tŹródło:" +
-                    product.url +
                     "\n\tSku:" +
                     product.sku;
             productsStrings.add(productString);
@@ -95,5 +93,9 @@ public class EstimateProducts extends AppCompatActivity {
         productsView.setAdapter(arrayAdapter);
         registerForContextMenu(productsView);
         arrayAdapter.notifyDataSetChanged();
+    }
+    public void returnToMonkey(View view){
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 }
