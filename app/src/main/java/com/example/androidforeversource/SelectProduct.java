@@ -2,11 +2,9 @@ package com.example.androidforeversource;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -22,7 +20,7 @@ public class SelectProduct extends AppCompatActivity {
         setContentView(R.layout.activity_select_product);
         updateProductList("");
 
-        ListView productsView = this.findViewById(R.id.ProductsList);
+        ListView productsView = this.findViewById(R.id.productsList);
         productsView.setOnItemClickListener((parent, view, position, id) -> {
             String productSku = productsView.getAdapter().getItem(position).toString().split("Sku:")[1];
             DataAccess db = new DataAccess(SelectProduct.this);
@@ -34,6 +32,9 @@ public class SelectProduct extends AppCompatActivity {
 
             finish();
         });
+
+        EditText filterText = this.findViewById(R.id.filterTextLabel);
+        filterText.setText("");
     }
 
     public void updateProductData(View view){
@@ -65,8 +66,8 @@ public class SelectProduct extends AppCompatActivity {
             }
         }
 
-        ListView productsView = findViewById(R.id.ProductsList);
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>
+        ListView productsView = findViewById(R.id.productsList);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>
                 (this, android.R.layout.simple_list_item_1, productsStrings);
 
         productsView.setAdapter(arrayAdapter);

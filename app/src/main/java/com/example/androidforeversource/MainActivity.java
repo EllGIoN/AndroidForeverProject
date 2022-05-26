@@ -14,6 +14,7 @@ import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import android.content.pm.PackageManager;
@@ -84,7 +85,10 @@ public class MainActivity extends AppCompatActivity {
         if (item.getTitle() == "Share") {
             shareMethod(item);
         } else if (item.getTitle() == "Edit") {
-
+            AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+            EstimateProducts.estimate = infoList.get(menuInfo.position);
+            Intent intent = new Intent(this, EstimateProducts.class);
+            startActivity(intent);
         }
         if (item.getTitle() == "Delete") {
             deleteRecordContextBtn(item);
@@ -176,7 +180,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void goToAddNewEstimate(View view){
-        Intent intent = new Intent(this, AddNewEstimate.class);
+        Intent intent = new Intent(this, EstimateProducts.class);
         startActivity(intent);
     }
     private void deleteRecordContextBtn(MenuItem item){

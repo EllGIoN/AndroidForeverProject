@@ -32,7 +32,6 @@ public class EstimateInfoAdapter extends ArrayAdapter<Estimate> {
     @NonNull
     @Override
     public View getView(int position, View convertView, ViewGroup parent){
-        //get all the estimate's info
         String name = getItem(position).getName();
         String cost = getItem(position).getCost();
         String dateOfCreation = getItem(position).getDateOfCreation();
@@ -40,9 +39,9 @@ public class EstimateInfoAdapter extends ArrayAdapter<Estimate> {
         LayoutInflater inflater = LayoutInflater.from(mContext);
         convertView = inflater.inflate(mResource,parent, false);
 
-        TextView tvName = (TextView) convertView.findViewById(R.id.textView1);
-        TextView tvCost = (TextView) convertView.findViewById(R.id.textView2);
-        TextView tvDayOfCreation = (TextView) convertView.findViewById(R.id.textView3);
+        TextView tvName = convertView.findViewById(R.id.textView1);
+        TextView tvCost = convertView.findViewById(R.id.textView2);
+        TextView tvDayOfCreation = convertView.findViewById(R.id.textView3);
 
         tvName.setText(name);
         tvCost.setText(cost);

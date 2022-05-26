@@ -333,12 +333,12 @@ public class DataAccess extends SQLiteOpenHelper {
     public void removeProductFromEstimate(int estimateId, int productId){
         SQLiteDatabase sqlDB = this.getReadableDatabase();
 
-        ContentValues values = new ContentValues();
-        values.put("estimateId", estimateId);
-        values.put("productId", productId);
-        sqlDB.rawQuery("DELETE FROM " + TABLE_ESTIMATES_PRODUCTS
-                + " WHERE id IN (SELECT id FROM " + TABLE_ESTIMATES_PRODUCTS
-                + " WHERE estimateId = " + estimateId + " AND productId = " + productId + " LIMIT 1)", new String[]{});
+        Cursor cursor = sqlDB.rawQuery("SELECT id FROM " + TABLE_ESTIMATES_PRODUCTS
+                + " WHERE estimateId = " + estimateId + " AND productId = " + productId + ";", new String[]{});
+        if(cursor.moveToFirst()){
+            sqlDB.delete(TABLE_ESTIMATES_PRODUCTS, "id =?", new String[]{" " + Integer.parseInt(cursor.getString(0))});
+        }
+        cursor.close();
 
         sqlDB.close();
     }

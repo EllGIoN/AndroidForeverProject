@@ -19,7 +19,7 @@
         android:theme="@style/Theme.AndroidForeverSource" >
 
         <activity
-            android:name=".AddNewEstimate"
+            android:name=".EstimateProducts"
             android:exported="true"
             android:parentActivityName=".MainActivity"
             />
@@ -35,7 +35,7 @@
         <activity
             android:name=".SelectProduct"
             android:exported="true"
-            android:parentActivityName=".AddNewEstimate"
+            android:parentActivityName=".EstimateProducts"
             />
     </application>
 
