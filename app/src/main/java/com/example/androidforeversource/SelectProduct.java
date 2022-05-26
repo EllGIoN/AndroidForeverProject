@@ -58,8 +58,6 @@ public class SelectProduct extends AppCompatActivity {
                         product.currentPrice +
                         "\n\tPoprzednia cena:" +
                         product.oldPrice +
-                        "\n\tŹródło:" +
-                        product.url +
                         "\n\tSku:" +
                         product.sku;
                 productsStrings.add(productString);
