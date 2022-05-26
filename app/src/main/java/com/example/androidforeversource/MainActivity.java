@@ -225,6 +225,34 @@ public class MainActivity extends AppCompatActivity {
         canvas.drawText(sei.getDateOfCreation(),0,40,paint); // WRITE TEXT
         canvas.drawText("Example for Java Project",0,60,paint); // WRITE TEXT
 
+        ArrayList<Integer> uniqueIds = new ArrayList<>();
+        for (Product product : sei.products) {
+            if(!uniqueIds.contains(product.id)){
+                uniqueIds.add(product.id);
+            }
+        }
+
+
+        int y = 100;
+        for (Product product : sei.products) {
+            if(uniqueIds.contains(product.id)){
+                int count = 0;
+
+                for (Product position : sei.products) {
+                    if(position.id == product.id){
+                        count++;
+                    }
+                }
+
+                canvas.drawText(product.name + " " + product.currentPrice + " x " + count, 0, y, paint);
+                y += 20;
+
+                if(uniqueIds.contains(product.id)){
+                    uniqueIds.remove((Integer) product.id);
+                }
+            }
+        }
+
         pdfDocument.finishPage(myPage);
 
         File file = new File(Environment.getExternalStorageDirectory(),sei.getName()+sei.getDateOfCreation()+".pdf");
