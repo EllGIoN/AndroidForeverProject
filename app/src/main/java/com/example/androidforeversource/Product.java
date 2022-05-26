@@ -1,6 +1,7 @@
 package com.example.androidforeversource;
 
 public class Product {
+    public int id = -1;
     public String sku = "";
     public String name = "";
     public String url = "";

@@ -14,16 +14,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SelectProduct extends AppCompatActivity {
+    public static int estimateId = -1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_product);
         updateProductList("");
 
-        ListView productsView = (ListView) this.findViewById(R.id.ProductsList);
+        ListView productsView = this.findViewById(R.id.ProductsList);
         productsView.setOnItemClickListener((parent, view, position, id) -> {
             String productSku = productsView.getAdapter().getItem(position).toString().split("Sku:")[1];
-            addNewEstimate.addProduct(new DataAccess(SelectProduct.this).getProduct(productSku));
+            DataAccess db = new DataAccess(SelectProduct.this);
+
+            Product product = db.getProduct(productSku);
+            if(product != null && estimateId != -1){
+                db.addProductToEstimate(estimateId, product.id);
+            }
+
             finish();
         });
     }
@@ -34,7 +42,7 @@ public class SelectProduct extends AppCompatActivity {
     }
 
     public void updateProductList(View view){
-        EditText filterText = (EditText) this.findViewById(R.id.filterTextLabel);
+        EditText filterText = this.findViewById(R.id.filterTextLabel);
         updateProductList(filterText.getText().toString());
     }
 
