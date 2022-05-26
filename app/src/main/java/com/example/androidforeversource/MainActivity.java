@@ -69,14 +69,20 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Log.d(TAG, "onCreate: Started.");
-        ListView mListView = (ListView) findViewById(R.id.listViewInMainActivity); // take from it
+        ListView mListView = findViewById(R.id.listViewInMainActivity); // take from it
 
-        structEstimateInfo firstExample = new structEstimateInfo("Mr. Krab", "4000", "25-11-1989");
-        structEstimateInfo SecondExample = new structEstimateInfo("Riot hospicium", "12000", "13-10-2010");
+        ArrayList<Estimate> estimates = new DataAccess(MainActivity.this).getEstimates();
 
+        for (Estimate estimate : estimates) {
+            double price = 0;
 
-        infoList.add(firstExample);
-        infoList.add(SecondExample);
+            for (Product product : estimate.products) {
+                price += product.currentPrice;
+            }
+
+            structEstimateInfo info = new structEstimateInfo(estimate.name, " " + price, estimate.date);
+            infoList.add(info);
+        }
 
         adapter = new structEstimateInfoAdapter(this, R.layout.adapter_view_layout, infoList);
         mListView.setAdapter(adapter);
