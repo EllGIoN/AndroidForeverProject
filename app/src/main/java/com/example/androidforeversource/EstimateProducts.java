@@ -64,16 +64,6 @@ public class EstimateProducts extends AppCompatActivity {
     }
 
     public void goToSelectProduct(View view){
-        //if(estimate == null){
-        //    Calendar cal = Calendar.getInstance();
-        //    cal.add(Calendar.DATE, 1);
-        //    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-//
-        //    //EditText editText = this.findViewById(R.id.editTextTextPersonName);
-        //    //estimate = new DataAccess(EstimateProducts.this)
-        //    //        .createEstimate(editText.getText().toString(), format.format(cal.getTime()));
-        //}
-
         if(estimate != null){
             Intent intent = new Intent(this,SelectProduct.class);
             SelectProduct.estimateId = estimate.id;
@@ -83,7 +73,6 @@ public class EstimateProducts extends AppCompatActivity {
 
     public void refreshList(){
         estimate = new DataAccess(EstimateProducts.this).getEstimate(estimate.id);
-
         List<String> productsStrings = new ArrayList<>();
 
         for (Product product : estimate.products) {
@@ -100,12 +89,11 @@ public class EstimateProducts extends AppCompatActivity {
         }
 
         ListView productsView = findViewById(R.id.listViewInMainActivity);
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>
                 (this, android.R.layout.simple_list_item_1, productsStrings);
 
         productsView.setAdapter(arrayAdapter);
         registerForContextMenu(productsView);
-
         arrayAdapter.notifyDataSetChanged();
     }
 }

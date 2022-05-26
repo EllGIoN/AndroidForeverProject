@@ -40,7 +40,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-
     private static final String TAG = "MainActivity";
     private static final int PERMISSION_REQUEST_CODE = 200;
     private ArrayList<Estimate> infoList = new ArrayList<>();
@@ -141,7 +140,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode == DISCOVER_DURATION && requestCode == REQUEST_BLU){
-
             Intent intent = new Intent();
             intent.setAction(Intent.ACTION_SEND);
             intent.setType("application/pdf");
@@ -165,14 +163,12 @@ public class MainActivity extends AppCompatActivity {
                 }
                 if(!found){
                     Toast.makeText(MainActivity.this, "Bluetooth haven't been found", Toast.LENGTH_SHORT).show();
-                }
-                else{
+                } else{
                     intent.setClassName(packageName,className);
                     Toast.makeText(MainActivity.this, "File was send", Toast.LENGTH_SHORT).show();
                     startActivity(intent);
                 }
-            }
-            else{
+            } else{
                 Toast.makeText(MainActivity.this, "Bluetooth is cancelled", Toast.LENGTH_SHORT).show();
             }
 
@@ -217,7 +213,6 @@ public class MainActivity extends AppCompatActivity {
         paint.setTextSize(15);                                                // SETTINGS
         paint.setColor(ContextCompat.getColor(this,R.color.black));    // SETTINGS
 
-
         canvas.drawText(sei.getName(),0,0,paint);
         canvas.drawText(sei.getCost(),0,20,paint);
         canvas.drawText(sei.getDateOfCreation(),0,40,paint); // WRITE TEXT
@@ -229,7 +224,6 @@ public class MainActivity extends AppCompatActivity {
                 uniqueIds.add(product.id);
             }
         }
-
 
         int y = 100;
         for (Product product : sei.products) {
@@ -252,14 +246,12 @@ public class MainActivity extends AppCompatActivity {
         }
 
         pdfDocument.finishPage(myPage);
-
         File file = new File(Environment.getExternalStorageDirectory(),sei.getName()+sei.getDateOfCreation()+".pdf");
 
         try {
             pdfDocument.writeTo(new FileOutputStream(file));
             Toast.makeText(MainActivity.this, sei.getName()+sei.getDateOfCreation()+" File Created Successfully",Toast.LENGTH_SHORT).show();
-        }
-        catch (IOException e){
+        } catch (IOException e){
             e.printStackTrace();
         }
         pdfDocument.close();
@@ -279,16 +271,13 @@ public class MainActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permission, grantResults);
         if (requestCode == PERMISSION_REQUEST_CODE) {
             if (grantResults.length > 0) {
-
-                // after requesting permissions we are showing
-                // users a toast message of permission granted.
                 boolean writeStorage = grantResults[0] == PackageManager.PERMISSION_GRANTED;
                 boolean readStorage = grantResults[1] == PackageManager.PERMISSION_GRANTED;
 
                 if (writeStorage && readStorage) {
                     Toast.makeText(this, "Permission Granted..", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(this, "Permission Denined.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Permission Denied.", Toast.LENGTH_SHORT).show();
                     finish();
                 }
             }
