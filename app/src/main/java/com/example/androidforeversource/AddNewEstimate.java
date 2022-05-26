@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class addNewEstimate extends AppCompatActivity {
+public class AddNewEstimate extends AppCompatActivity {
     private Estimate estimate;
 
     @Override
@@ -27,7 +27,7 @@ public class addNewEstimate extends AppCompatActivity {
         super.onResume();
         EditText editText = this.findViewById(R.id.editTextTextPersonName);
         if(!editText.getText().toString().isEmpty()){
-            estimate = new DataAccess(addNewEstimate.this).getEstimate(editText.getText().toString());
+            estimate = new DataAccess(AddNewEstimate.this).getEstimate(editText.getText().toString());
             List<String> productsStrings = new ArrayList<>();
 
             for (Product product : estimate.products) {
@@ -55,7 +55,7 @@ public class addNewEstimate extends AppCompatActivity {
     public void goToSelectProduct(View view){
         if(estimate == null){
             EditText editText = this.findViewById(R.id.editTextTextPersonName);
-            estimate = new DataAccess(addNewEstimate.this)
+            estimate = new DataAccess(AddNewEstimate.this)
                     .createEstimate(editText.getText().toString(), Calendar.getInstance().getTime().toString());
         }
 

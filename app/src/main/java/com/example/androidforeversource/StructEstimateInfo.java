@@ -1,11 +1,11 @@
 package com.example.androidforeversource;
 
-public class structEstimateInfo {
+public class StructEstimateInfo {
     private String name;
     private String cost;
     private  String dateOfCreation;
 
-    public structEstimateInfo(String name, String cost, String dateOfCreation){
+    public StructEstimateInfo(String name, String cost, String dateOfCreation){
         this.name = name;
         this.cost = cost;
         this.dateOfCreation = dateOfCreation;

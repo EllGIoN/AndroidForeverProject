@@ -10,9 +10,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class structEstimateInfoAdapter extends ArrayAdapter<structEstimateInfo> {
+public class structEstimateInfoAdapter extends ArrayAdapter<StructEstimateInfo> {
 
     private static final String TAG = "StructEstimateInfoAdapter";
     private Context mContext;
@@ -24,7 +23,7 @@ public class structEstimateInfoAdapter extends ArrayAdapter<structEstimateInfo> 
      * @param objects
      */
 
-    public structEstimateInfoAdapter(Context context, int resource, ArrayList<structEstimateInfo> objects){
+    public structEstimateInfoAdapter(Context context, int resource, ArrayList<StructEstimateInfo> objects){
         super(context, resource, objects);
         mContext = context;
         mResource = resource;
@@ -39,7 +38,7 @@ public class structEstimateInfoAdapter extends ArrayAdapter<structEstimateInfo> 
         String dateOfCreation = getItem(position).getDateOfCreation();
 
         // create object with getted info
-        structEstimateInfo struct = new structEstimateInfo(name,cost,dateOfCreation);
+        StructEstimateInfo struct = new StructEstimateInfo(name,cost,dateOfCreation);
 
         LayoutInflater inflater = LayoutInflater.from(mContext);
         convertView = inflater.inflate(mResource,parent, false);

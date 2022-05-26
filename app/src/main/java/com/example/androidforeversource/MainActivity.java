@@ -7,45 +7,31 @@ import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.graphics.pdf.PdfDocument;
-import android.os.Bundle;
 import android.os.Environment;
-import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
-import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
@@ -58,11 +44,11 @@ public class MainActivity extends AppCompatActivity {
 
 
     private static final int PERMISSION_REQUEST_CODE = 200;
-    private ArrayList<structEstimateInfo> infoList = new ArrayList<>();
+    private ArrayList<StructEstimateInfo> infoList = new ArrayList<>();
     private structEstimateInfoAdapter adapter;
     private static final int DISCOVER_DURATION = 300;
     private static final int REQUEST_BLU = 1;
-    private structEstimateInfo sei;
+    private StructEstimateInfo sei;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
                 price += product.currentPrice;
             }
 
-            structEstimateInfo info = new structEstimateInfo(estimate.name, " " + price, estimate.date);
+            StructEstimateInfo info = new StructEstimateInfo(estimate.name, " " + price, estimate.date);
             infoList.add(info);
         }
 
@@ -130,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
     private void ShareMethod(MenuItem item) {
 
         AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        structEstimateInfo sei = infoList.get(menuInfo.position);
+        StructEstimateInfo sei = infoList.get(menuInfo.position);
         BluetoothAdapter btAdapter = BluetoothAdapter.getDefaultAdapter();
 
         if (btAdapter == null) {
@@ -206,7 +192,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void goToAddNewEstimate(View view){
-        Intent intent = new Intent(this,addNewEstimate.class);
+        Intent intent = new Intent(this, AddNewEstimate.class);
         startActivity(intent);
     }
     private void _deleteRecordContextBtn(MenuItem item){
