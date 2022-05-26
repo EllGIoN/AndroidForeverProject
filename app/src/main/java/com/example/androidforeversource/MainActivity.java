@@ -41,8 +41,6 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
-
-
     private static final int PERMISSION_REQUEST_CODE = 200;
     private ArrayList<Estimate> infoList = new ArrayList<>();
     private EstimateInfoAdapter adapter;
@@ -56,13 +54,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Log.d(TAG, "onCreate: Started.");
         ListView mListView = findViewById(R.id.listViewInMainActivity); // take from it
-
         infoList = new DataAccess(MainActivity.this).getEstimates();
-
-
         adapter = new EstimateInfoAdapter(this, R.layout.adapter_view_layout, infoList);
         mListView.setAdapter(adapter);
-
         registerForContextMenu(mListView);
 
         if (checkPermission()) {
@@ -88,22 +82,22 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         if (item.getTitle() == "Share") {
-            ShareMethod(item);
+            shareMethod(item);
         } else if (item.getTitle() == "Edit") {
 
         }
         if (item.getTitle() == "Delete") {
-            _deleteRecordContextBtn(item);
+            deleteRecordContextBtn(item);
 
         }
         if (item.getTitle() == "Create PDF") {
-            _createPDFileContextBtn(item);
+            createPDFileContextBtn(item);
         }
 
         return true;
     }
 
-    private void ShareMethod(MenuItem item) {
+    private void shareMethod(MenuItem item) {
 
         AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         Estimate sei = infoList.get(menuInfo.position);
@@ -116,13 +110,13 @@ public class MainActivity extends AppCompatActivity {
             if (file.exists()) {
 
             } else {
-                _createPDFile();
+                createPDFile();
             }
-            SendFile();
+            sendFile();
         }
     }
 
-    private void SendFile() {
+    private void sendFile() {
         Intent discoveryIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
         discoveryIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, DISCOVER_DURATION);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_ADVERTISE) != PackageManager.PERMISSION_GRANTED) {
@@ -185,12 +179,12 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, AddNewEstimate.class);
         startActivity(intent);
     }
-    private void _deleteRecordContextBtn(MenuItem item){
+    private void deleteRecordContextBtn(MenuItem item){
         AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         new DataAccess(MainActivity.this).deleteEstimate(infoList.remove(menuInfo.position).id);
         adapter.notifyDataSetChanged();
     }
-    private void _createPDFileContextBtn(MenuItem item){
+    private void createPDFileContextBtn(MenuItem item){
         AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
          sei = infoList.get(menuInfo.position);
 
@@ -199,11 +193,11 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(MainActivity.this,"File Already Exist",Toast.LENGTH_SHORT).show();
         }
         else {
-            _createPDFile();
+            createPDFile();
         }
     }
 
-    private void _createPDFile(){
+    private void createPDFile(){
         int heightPage = 1120;
         int widthPage = 792;
 
