@@ -312,6 +312,13 @@ public class DataAccess extends SQLiteOpenHelper {
         return estimates;
     }
 
+    public void deleteEstimate(int id){
+        SQLiteDatabase sqlDB = this.getReadableDatabase();
+        sqlDB.delete(TABLE_ESTIMATES_PRODUCTS, "estimateId =?", new String[]{" " + id});
+        sqlDB.delete(TABLE_ESTIMATES, "id =?", new String[]{" " + id} );
+        sqlDB.close();
+    }
+
     public void addProductToEstimate(int estimateId, int productId){
         SQLiteDatabase sqlDB = this.getReadableDatabase();
 

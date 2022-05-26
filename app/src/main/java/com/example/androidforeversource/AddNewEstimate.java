@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -54,9 +55,13 @@ public class AddNewEstimate extends AppCompatActivity {
 
     public void goToSelectProduct(View view){
         if(estimate == null){
+            Calendar cal = Calendar.getInstance();
+            cal.add(Calendar.DATE, 1);
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+
             EditText editText = this.findViewById(R.id.editTextTextPersonName);
             estimate = new DataAccess(AddNewEstimate.this)
-                    .createEstimate(editText.getText().toString(), Calendar.getInstance().getTime().toString());
+                    .createEstimate(editText.getText().toString(), format.format(cal.getTime()));
         }
 
         if(estimate != null){

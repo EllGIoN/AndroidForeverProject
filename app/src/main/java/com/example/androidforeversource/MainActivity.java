@@ -44,11 +44,11 @@ public class MainActivity extends AppCompatActivity {
 
 
     private static final int PERMISSION_REQUEST_CODE = 200;
-    private ArrayList<StructEstimateInfo> infoList = new ArrayList<>();
-    private structEstimateInfoAdapter adapter;
+    private ArrayList<Estimate> infoList = new ArrayList<>();
+    private EstimateInfoAdapter adapter;
     private static final int DISCOVER_DURATION = 300;
     private static final int REQUEST_BLU = 1;
-    private StructEstimateInfo sei;
+    private Estimate sei;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,20 +57,10 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate: Started.");
         ListView mListView = findViewById(R.id.listViewInMainActivity); // take from it
 
-        ArrayList<Estimate> estimates = new DataAccess(MainActivity.this).getEstimates();
+        infoList = new DataAccess(MainActivity.this).getEstimates();
 
-        for (Estimate estimate : estimates) {
-            double price = 0;
 
-            for (Product product : estimate.products) {
-                price += product.currentPrice;
-            }
-
-            StructEstimateInfo info = new StructEstimateInfo(estimate.name, " " + price, estimate.date);
-            infoList.add(info);
-        }
-
-        adapter = new structEstimateInfoAdapter(this, R.layout.adapter_view_layout, infoList);
+        adapter = new EstimateInfoAdapter(this, R.layout.adapter_view_layout, infoList);
         mListView.setAdapter(adapter);
 
         registerForContextMenu(mListView);
@@ -116,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
     private void ShareMethod(MenuItem item) {
 
         AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        StructEstimateInfo sei = infoList.get(menuInfo.position);
+        Estimate sei = infoList.get(menuInfo.position);
         BluetoothAdapter btAdapter = BluetoothAdapter.getDefaultAdapter();
 
         if (btAdapter == null) {
@@ -197,9 +187,8 @@ public class MainActivity extends AppCompatActivity {
     }
     private void _deleteRecordContextBtn(MenuItem item){
         AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        infoList.remove(menuInfo.position);
+        new DataAccess(MainActivity.this).deleteEstimate(infoList.remove(menuInfo.position).id);
         adapter.notifyDataSetChanged();
-
     }
     private void _createPDFileContextBtn(MenuItem item){
         AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();

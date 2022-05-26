@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">AndroidForeverSource</string>
+    <string name="app_name">AndroidForeverEstimate</string>
     <string name="add">ADD</string>
     <string name="title_activity_add_new_estimate">addNewEstimate</string>
     <!-- Strings used for fragments for navigation -->
