@@ -37,6 +37,9 @@
             android:exported="true"
             android:parentActivityName=".EstimateProducts"
             />
+        <activity android:name=".setEstimateName"
+            android:theme="@style/AppThemeCustomLayout"
+            />
     </application>
 
 </manifest>

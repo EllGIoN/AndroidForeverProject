@@ -28,6 +28,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
@@ -176,8 +178,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void goToAddNewEstimate(View view){
-        Intent intent = new Intent(this, EstimateProducts.class);
-        startActivity(intent);
+
+        startActivity(new Intent(MainActivity.this,setEstimateName.class));
+
     }
     private void deleteRecordContextBtn(MenuItem item){
         AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
@@ -283,4 +286,8 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+    public void displayEstimateNameWindow(){
+
+    }
+
 }
