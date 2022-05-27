@@ -4,11 +4,12 @@
     package="com.example.androidforeversource" >
 
     <uses-permission android:name="android.permission.BLUETOOTH_ADVERTISE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.BLUETOOTH"/>
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 
     <application
         android:allowBackup="true"
@@ -17,12 +18,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AndroidForeverSource" >
+        <activity
+            android:name=".ViewEstimate"
+            android:exported="false"
+            android:parentActivityName=".MainActivity"/>
 
         <activity
             android:name=".EstimateProducts"
             android:exported="true"
-            android:parentActivityName=".MainActivity"
-            />
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".MainActivity"
             android:exported="true" >
@@ -35,11 +39,10 @@
         <activity
             android:name=".SelectProduct"
             android:exported="true"
-            android:parentActivityName=".EstimateProducts"
-            />
-        <activity android:name=".setEstimateName"
-            android:theme="@style/AppThemeCustomLayout"
-            />
+            android:parentActivityName=".EstimateProducts" />
+        <activity
+            android:name=".SetEstimateName"
+            android:theme="@style/AppThemeCustomLayout" />
     </application>
 
 </manifest>

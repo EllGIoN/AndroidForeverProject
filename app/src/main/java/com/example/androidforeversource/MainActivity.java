@@ -14,7 +14,6 @@ import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.ListView;
 
 import android.content.pm.PackageManager;
@@ -28,8 +27,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
@@ -66,6 +63,14 @@ public class MainActivity extends AppCompatActivity {
         } else {
             requestPermission();
         }
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                EstimateProducts.estimate = infoList.get(position);
+                Intent intent = new Intent(MainActivity.this, ViewEstimate.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -78,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
         menu.add(0, v.getId(), 0, "Share");
         menu.add(0, v.getId(), 0, "Create PDF");
         menu.add(0, v.getId(), 0, "Edit");
-        menu.add(0, v.getId(), 0, "Delete");
+        menu.add(0, v.getId(), 0, "Remove");
     }
 
     @Override
@@ -91,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, EstimateProducts.class);
             startActivity(intent);
         }
-        if (item.getTitle() == "Delete") {
+        if (item.getTitle() == "Remove") {
             deleteRecordContextBtn(item);
 
         }
@@ -179,7 +184,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void goToAddNewEstimate(View view){
 
-        startActivity(new Intent(MainActivity.this,setEstimateName.class));
+        startActivity(new Intent(MainActivity.this, SetEstimateName.class));
 
     }
     private void deleteRecordContextBtn(MenuItem item){
@@ -286,8 +291,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-    public void displayEstimateNameWindow(){
 
-    }
 
 }

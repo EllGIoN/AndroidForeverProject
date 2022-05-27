@@ -6,11 +6,12 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-public class setEstimateName extends Activity {
+public class SetEstimateName extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,9 +31,12 @@ public class setEstimateName extends Activity {
         if(!et.getText().toString().equals("")) {
             Calendar cal = Calendar.getInstance();
             SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
-            EstimateProducts.estimate = new DataAccess(setEstimateName.this).createEstimate(et.getText().toString(),format1.format(cal.getTime()));
+            EstimateProducts.estimate = new DataAccess(SetEstimateName.this).createEstimate(et.getText().toString(),format1.format(cal.getTime()));
             Intent intent = new Intent(this, EstimateProducts.class);
             startActivity(intent);
+        }
+        else{
+            Toast.makeText(this,"Name is empty", Toast.LENGTH_SHORT).show();
         }
     }
 }
